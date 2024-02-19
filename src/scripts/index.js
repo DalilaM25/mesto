@@ -17,7 +17,6 @@ const addCardForm = document.forms['new-place'];
 const cardNameInput = addCardForm.elements['place-name'];
 const cardLinkInput = addCardForm.elements.link;
 
-
 function renderCards(cardsArray) {
   cardsArray.forEach(function (element) {
     const newCard = createCard(element, deleteCard);
@@ -56,23 +55,20 @@ function handleFormSubmit(evt) {
 formElement.addEventListener('submit', handleFormSubmit);
 
 function addNewCard(evt) {
-    evt.preventDefault();
-    
-    const card = {};
-    card.name = cardNameInput.value;
-    card.link = cardLinkInput.value;
-    
-    const newCard = createCard(card, deleteCard);
-    cardList.prepend(newCard);
-    
-    closeModal(popup);
-    cardNameInput.value = '';
-    cardLinkInput.value = '';
-}
+  evt.preventDefault();
 
+  const card = {};
+  card.name = cardNameInput.value;
+  card.link = cardLinkInput.value;
+
+  const newCard = createCard(card, deleteCard);
+  cardList.prepend(newCard);
+
+  closeModal(popup);
+  cardNameInput.value = '';
+  cardLinkInput.value = '';
+}
 
 addCardForm.addEventListener('submit', addNewCard);
 
-
-
-export { cardTemplate, popupImage};
+export { cardTemplate, popupImage };
