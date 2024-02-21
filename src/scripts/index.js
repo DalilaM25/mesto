@@ -12,7 +12,7 @@ const buttonOpenEditProfileForm = document.querySelector(
   '.profile__edit-button'
 );
 const buttonOpenAddCardForm = document.querySelector('.profile__add-button');
-const popupEdit = document.querySelector('.popup_type_edit');
+const popupEditProfile = document.querySelector('.popup_type_edit');
 const popupNewCard = document.querySelector('.popup_type_new-card');
 const popupImage = document.querySelector('.popup_type_image');
 const formEditProfile = document.forms['edit-profile'];
@@ -23,6 +23,8 @@ const cardNameInput = formAddCard.elements['place-name'];
 const cardLinkInput = formAddCard.elements.link;
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
+const popupImageContent = popupImage.querySelector('.popup__image');
+const popupImageCaption = popupImage.querySelector('.popup__caption');
 
 function renderCards(cardsArray) {
   cardsArray.forEach(function (element) {
@@ -44,10 +46,11 @@ renderCards(initialCards);
 buttonOpenEditProfileForm.addEventListener('click', (evt) => {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
-  openModal(popupEdit);
+  openModal(popupEditProfile);
 });
 
 buttonOpenAddCardForm.addEventListener('click', (evt) => {
+  formAddCard.reset();
   openModal(popupNewCard);
 });
 
@@ -57,12 +60,9 @@ function submitEditProfileForm(evt) {
   const name = nameInput.value;
   const job = jobInput.value;
 
-  const profileTitle = document.querySelector('.profile__title');
-  const profileDescription = document.querySelector('.profile__description');
-
   profileTitle.textContent = name;
   profileDescription.textContent = job;
-  closeModal(popupEdit);
+  closeModal(popupEditProfile);
 }
 
 formEditProfile.addEventListener('submit', submitEditProfileForm);
@@ -86,13 +86,13 @@ function addNewCard(evt) {
   cardList.prepend(newCard);
 
   closeModal(popupNewCard);
-  formAddCard.reset();
 }
 
 formAddCard.addEventListener('submit', addNewCard);
 
 function openPopupImage(cardImg) {
-  popupImage.querySelector('.popup__image').src = cardImg.src;
-  popupImage.querySelector('.popup__image').alt = cardImg.alt;
-  popupImage.querySelector('.popup__caption').textContent = cardImg.alt;
+  popupImageContent.src = cardImg.src;
+  popupImageContent.alt = cardImg.alt;
+  popupImageCaption.textContent = cardImg.alt;
+  openModal(popupImage);
 }

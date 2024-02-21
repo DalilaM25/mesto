@@ -1,5 +1,3 @@
-// let openedPopup;
-
 const closeByEsc = (evt) => {
   const keyCode = 27;
   if (evt.keyCode === keyCode) {

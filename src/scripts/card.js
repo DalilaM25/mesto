@@ -1,5 +1,3 @@
-import { openModal } from './modal.js';
-
 const deleteCard = (evt) => evt.target.closest('.card').remove();
 
 const likeCard = (evt) =>
@@ -33,7 +31,6 @@ function createCard(
   likeButton.addEventListener('click', likeCard);
   cardImg.addEventListener('click', (evt) => {
     openPopupImage(cardImg);
-    openModal(popup);
   });
   return cardElement;
 }
