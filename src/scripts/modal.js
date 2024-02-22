@@ -1,22 +1,19 @@
 const closeByEsc = (evt) => {
   const keyCode = 27;
   if (evt.keyCode === keyCode) {
-    const openedPopup = document.querySelector('.popup_is-opened');
-    closeModal(openedPopup);
+    closeModal();
   }
 };
 
 const closeByCrossClick = (evt) => {
   if (evt.target.classList.contains('popup__close')) {
-    const openedPopup = document.querySelector('.popup_is-opened');
-    closeModal(openedPopup);
+    closeModal();
   }
 };
 
 const closeByOverlayClick = (evt) => {
   if (evt.target === evt.currentTarget) {
-    const openedPopup = document.querySelector('.popup_is-opened');
-    closeModal(openedPopup);
+    closeModal();
   }
 };
 
@@ -27,11 +24,12 @@ const openModal = (popup) => {
   popup.addEventListener('click', closeByOverlayClick);
 };
 
-const closeModal = (popup) => {
-  popup.classList.remove('popup_is-opened');
+const closeModal = (openedPopup) => {
+  openedPopup = document.querySelector('.popup_is-opened');
+  openedPopup.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', closeByEsc);
   document.removeEventListener('click', closeByCrossClick);
-  popup.addEventListener('click', closeByOverlayClick);
+  openedPopup.addEventListener('click', closeByOverlayClick);
 };
 
 export { openModal, closeModal };
