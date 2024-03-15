@@ -7,6 +7,34 @@
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+  position: relative;
+}
+
+.profile__image-overlay {
+  position: absolute;
+  left: 45px;
+  visibility: hidden;
+}
+
+.profile__image::after {
+  content: "";
+  position: absolute;
+  visibility: hidden;
+  width: 120px;
+  height: 120px;
+background-color: rgb(0,0,0,0.8);
+border-radius: 49%;
+}
+
+.profile__image:hover + .profile__image-overlay {
+  visibility: visible;
+}
+
+.profile__image:hover::after {
+  visibility: visible;
+}
+.profile__image:hover {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 740px) {
