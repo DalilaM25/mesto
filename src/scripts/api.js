@@ -1,43 +1,38 @@
+import { checkResponse } from '../utils/utils';
+
+function request(endpoint, options) {
+  // принимает два аргумента: урл и объект опций, как и `fetch`
+  return fetch(
+    `https://nomoreparties.co/v1/wff-cohort-9${endpoint}`,
+    options
+  ).then(checkResponse);
+}
+
 const getInitialCards = (config) => {
-  return fetch(`${config.baseUrl}/cards`, {
+  return request(`/cards`, {
     headers: config.headers,
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
   });
 };
 
 const getInitialUser = (config) => {
-  return fetch(`${config.baseUrl}/users/me`, {
+  return request(`/users/me`, {
     headers: config.headers,
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
   });
 };
 
 const patchUserData = (config, name, job) => {
-  return fetch(`${config.baseUrl}/users/me`, {
+  return request(`/users/me`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
       name: `${name}`,
       about: `${job}`,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
   });
 };
 
 const postNewCard = (config, cardName, cardLink) => {
-  return fetch(`${config.baseUrl}/cards`, {
+  return request(`/cards`, {
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify({
@@ -45,62 +40,37 @@ const postNewCard = (config, cardName, cardLink) => {
       link: `${cardLink}`,
       likes: [],
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
   });
 };
 
 const deleteCardFromServer = (config, cardID) => {
-  return fetch(`${config.baseUrl}/cards/${cardID}`, {
+  return request(`/cards/${cardID}`, {
     method: 'DELETE',
     headers: config.headers,
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
   });
 };
 
 const addLike = (config, cardID) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardID}`, {
+  return request(`/cards/likes/${cardID}`, {
     method: 'PUT',
     headers: config.headers,
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
   });
 };
 
 const removeLike = (config, cardID) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardID}`, {
+  return request(`/cards/likes/${cardID}`, {
     method: 'DELETE',
     headers: config.headers,
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
   });
 };
 
 const patchUserAvatar = (config, avatar) => {
-  return fetch(`${config.baseUrl}/users/me/avatar`, {
+  return request(`/users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
       avatar: `${avatar}`,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
   });
 };
 

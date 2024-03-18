@@ -41,13 +41,21 @@ const hasInvalidInput = (inputList) => {
   });
 };
 
+function disableButton(submitButton, settings) {
+  submitButton.disabled = true;
+  submitButton.classList.add(settings);
+}
+
+function enableButton(submitButton, settings) {
+  submitButton.disabled = false;
+  submitButton.classList.remove(settings);
+}
+
 function toggleButtonState(inputList, buttonElement, validationConfig) {
   if (hasInvalidInput(inputList)) {
-    buttonElement.disabled = true;
-    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+    disableButton(buttonElement ,validationConfig.inactiveButtonClass)
   } else {
-    buttonElement.disabled = false;
-    buttonElement.classList.remove(validationConfig.inactiveButtonClass);
+    enableButton(buttonElement ,validationConfig.inactiveButtonClass)
   }
 }
 
@@ -67,6 +75,10 @@ const setEventListeners = (formElement, validationConfig) => {
       toggleButtonState(inputList, buttonElement, validationConfig);
     });
   });
+
+  formElement.addEventListener('reset', () => {
+    disableButton(buttonElement ,validationConfig.inactiveButtonClass)
+  });
 };
 
 const enableValidation = (validationConfig) => {
@@ -85,7 +97,7 @@ function clearValidation(profileForm, validationConfig) {
   const inputList = Array.from(
     profileForm.querySelectorAll(validationConfig.inputSelector)
   );
-  const submitButton = profileForm.querySelector(
+  const buttonElement = profileForm.querySelector(
     validationConfig.submitButtonSelector
   );
 
@@ -93,7 +105,7 @@ function clearValidation(profileForm, validationConfig) {
     hideInputError(profileForm, inputElement, validationConfig);
   });
 
-  submitButton.classList.add(validationConfig.inactiveButtonClass);
+  disableButton(buttonElement ,validationConfig.inactiveButtonClass)
 }
 
 export { enableValidation, clearValidation };

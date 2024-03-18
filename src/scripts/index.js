@@ -2,7 +2,8 @@ import '../pages/index.css';
 import '../scripts/card';
 import '../scripts/modal';
 import '../scripts/validation';
-
+import '../utils/utils';
+import '../utils/constants';
 import { deleteCard, createCard, handleCardLike } from './card';
 import { openModal, closeModal } from './modal';
 import { enableValidation, clearValidation } from './validation';
@@ -12,47 +13,34 @@ import {
   patchUserData,
   patchUserAvatar,
   postNewCard,
-} from './api.js';
+} from './api';
+import {
+  cardTemplate,
+  cardList,
+  buttonOpenEditProfileForm,
+  buttonOpenAddCardForm,
+  popupEditProfile,
+  popupNewCard,
+  popupImage,
+  profileAvatar,
+  popupEditAvatar,
+  formAvatar,
+  avatarInput,
+  formEditProfile,
+  nameInput,
+  jobInput,
+  formAddCard,
+  cardNameInput,
+  cardLinkInput,
+  profileTitle,
+  profileDescription,
+  popupImageContent,
+  popupImageCaption,
+  validationConfig,
+  config,
+} from '../utils/constants';
+import { renderLoading, handleSubmit } from '../utils/utils';
 
-const cardTemplate = document.querySelector('#card-template').content;
-const cardList = document.querySelector('.places__list');
-const buttonOpenEditProfileForm = document.querySelector('.profile__edit-button');
-const buttonOpenAddCardForm = document.querySelector('.profile__add-button');
-const popupEditProfile = document.querySelector('.popup_type_edit');
-const popupNewCard = document.querySelector('.popup_type_new-card');
-const popupImage = document.querySelector('.popup_type_image');
-const profileAvatar = document.querySelector('.profile__image');
-const popupEditAvatar = document.querySelector('.popup_type_avatar');
-const formAvatar = document.forms['edit-avatar'];
-const avatarInput = formAvatar.elements['link'];
-const formEditProfile = document.forms['edit-profile'];
-const nameInput = formEditProfile.elements.name;
-const jobInput = formEditProfile.elements.description;
-const formAddCard = document.forms['new-place'];
-const cardNameInput = formAddCard.elements['place-name'];
-const cardLinkInput = formAddCard.elements.link;
-const profileTitle = document.querySelector('.profile__title');
-const profileDescription = document.querySelector('.profile__description');
-const popupImageContent = popupImage.querySelector('.popup__image');
-const popupImageCaption = popupImage.querySelector('.popup__caption');
-const avatarSubmitButton = formAvatar.querySelector('.popup__button');
-const profileSubmitButton = formEditProfile.querySelector('.popup__button');
-const cardSubmitButton = formAddCard.querySelector('.popup__button');
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible',
-};
-const config = {
-  baseUrl: 'https://nomoreparties.co/v1/wff-cohort-9',
-  headers: {
-    authorization: 'a306f177-c6ab-4a77-8c2f-7f3972575f99',
-    'Content-Type': 'application/json',
-  },
-};
 let userID = '';
 
 //слушатели кликов:
@@ -76,82 +64,53 @@ profileAvatar.addEventListener('click', (evt) => {
   openModal(popupEditAvatar);
 });
 
-function renderLoading(isLoading, button) {
-  if (isLoading) {
-    button.textContent = 'Сохранение...';
-  } else {
-    button.textContent = 'Сохранить';
-  }
-}
-
 //отправка данных форм:
 // -профиля
 function submitEditProfileForm(evt) {
-  evt.preventDefault();
-  renderLoading(true, profileSubmitButton);
-  patchUserData(config, nameInput.value, jobInput.value)
-    .then((user) => {
-      profileTitle.textContent = user.name;
-      profileDescription.textContent = user.about;
-    })
-    .then(() => {
-      closeModal(popupEditProfile);
-    })
-    .catch((err) => renderError(`Ошибка: ${err}`))
-    .finally(() => {
-      renderLoading(false, profileSubmitButton);
-    });
+  function makeRequest() {
+    return patchUserData(config, nameInput.value, jobInput.value).then(
+      (user) => {
+        profileTitle.textContent = user.name;
+        profileDescription.textContent = user.about;
+      }
+    );
+  }
+  handleSubmit(makeRequest, evt);
 }
-
 formEditProfile.addEventListener('submit', submitEditProfileForm);
-
 //-нового места
 function submitNewCard(evt) {
-  evt.preventDefault();
-  renderLoading(true, cardSubmitButton);
-  postNewCard(config, cardNameInput.value, cardLinkInput.value)
-    .then((card) => {
-      cardList.prepend(
-        createCard(
-          cardTemplate,
-          card,
-          userID,
-          deleteCard,
-          handleCardLike,
-          openPopupImage,
-          config
-        )
-      );
-    })
-    .then(() => closeModal(popupNewCard))
-    .catch((err) => renderError(`Ошибка: ${err}`))
-    .finally(() => {
-      renderLoading(false, cardSubmitButton);
-    });
+  function makeRequest() {
+    return postNewCard(config, cardNameInput.value, cardLinkInput.value).then(
+      (card) => {
+        cardList.prepend(
+          createCard(
+            cardTemplate,
+            card,
+            userID,
+            deleteCard,
+            handleCardLike,
+            openPopupImage,
+            config
+          )
+        );
+      }
+    );
+  }
+  handleSubmit(makeRequest, evt);
 }
-
-formAddCard.addEventListener('submit', (evt) => {
-  submitNewCard(evt);
-});
-
+formAddCard.addEventListener('submit', submitNewCard);
 //-аватара
 function submitNewAvatar(evt) {
-  evt.preventDefault();
-  renderLoading(true, avatarSubmitButton);
-  patchUserAvatar(config, avatarInput.value)
-    .then((user) => {
+  function makeRequest() {
+    return patchUserAvatar(config, avatarInput.value).then((user) => {
       profileAvatar.style.backgroundImage = `url(${user.avatar})`;
-    })
-    .then(() => closeModal(popupNewCard))
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => renderLoading(false, avatarSubmitButton));
+    });
+  }
+  handleSubmit(makeRequest, evt);
 }
 
-formAvatar.addEventListener('submit', (evt) => {
-  submitNewAvatar(evt);
-});
+formAvatar.addEventListener('submit', submitNewAvatar);
 
 //открыть картинку для просмотра
 function openPopupImage(cardImg) {
@@ -189,6 +148,4 @@ Promise.all([getInitialCards(config), getInitialUser(config)])
     profileAvatar.style.backgroundImage = `url(${user.avatar})`;
     renderCards(cards);
   })
-  .catch((err) => {
-    console.log(err);
-  });
+  .catch(console.error);

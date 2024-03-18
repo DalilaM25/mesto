@@ -18,14 +18,15 @@ const closeByOverlayClick = (evt) => {
 };
 
 const openModal = (popup) => {
-  popup.classList.toggle('popup_is-opened');
+  popup.classList.add('popup_is-opened');
   document.addEventListener('keydown', closeByEsc);
   document.addEventListener('click', closeByCrossClick);
   popup.addEventListener('click', closeByOverlayClick);
 };
 
-const closeModal = (openedPopup) => {
-  openedPopup = document.querySelector('.popup_is-opened');
+const closeModal = () => {
+ const openedPopup = document.querySelector('.popup_is-opened');
+  if (!openedPopup) return; 
   openedPopup.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', closeByEsc);
   document.removeEventListener('click', closeByCrossClick);

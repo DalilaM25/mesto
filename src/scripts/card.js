@@ -38,12 +38,12 @@ function createCard(
   const cardTitle = cardElement.querySelector('.card__title');
   const deleteButton = cardElement.querySelector('.card__delete-button');
   const likeButton = cardElement.querySelector('.card__like-button');
-  const LikeCounter = cardElement.querySelector('.card__like-counter');
+  const likeCounter = cardElement.querySelector('.card__like-counter');
 
   cardImg.src = card.link;
   cardImg.alt = card.name;
   cardTitle.textContent = card.name;
-  LikeCounter.textContent = card.likes.length;
+  likeCounter.textContent = card.likes.length;
 
   card.likes.forEach(function (likeElement) {
     if (likeElement._id === userID) {
@@ -66,7 +66,7 @@ function createCard(
   });
 
   likeButton.addEventListener('click', (evt) =>
-    handleCardLike(evt, LikeCounter, config, card)
+    handleCardLike(evt, likeCounter, config, card)
   );
   cardImg.addEventListener('click', (evt) => openPopupImage(cardImg));
   return cardElement;
