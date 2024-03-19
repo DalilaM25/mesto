@@ -33,4 +33,4 @@ function handleSubmit(request, evt, loadingText = 'Сохранение...') {
     });
 }
 
-export { checkResponse, renderLoading, handleSubmit };
+export { checkResponse, handleSubmit };

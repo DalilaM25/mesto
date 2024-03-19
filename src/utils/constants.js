@@ -29,12 +29,6 @@ const validationConfig = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible',
 };
-const config = {
-  headers: {
-    authorization: 'a306f177-c6ab-4a77-8c2f-7f3972575f99',
-    'Content-Type': 'application/json',
-  },
-};
 
 export {
   cardTemplate,
@@ -58,6 +52,5 @@ export {
   profileDescription,
   popupImageContent,
   popupImageCaption,
-  validationConfig,
-  config,
+  validationConfig
 };

@@ -13,6 +13,7 @@ import {
   patchUserData,
   patchUserAvatar,
   postNewCard,
+  checkUrlAvatar,
 } from './api';
 import {
   cardTemplate,
@@ -36,10 +37,9 @@ import {
   profileDescription,
   popupImageContent,
   popupImageCaption,
-  validationConfig,
-  config,
+  validationConfig
 } from '../utils/constants';
-import { renderLoading, handleSubmit } from '../utils/utils';
+import { handleSubmit } from '../utils/utils';
 
 let userID = '';
 
@@ -68,7 +68,7 @@ profileAvatar.addEventListener('click', (evt) => {
 // -профиля
 function submitEditProfileForm(evt) {
   function makeRequest() {
-    return patchUserData(config, nameInput.value, jobInput.value).then(
+    return patchUserData(nameInput.value, jobInput.value).then(
       (user) => {
         profileTitle.textContent = user.name;
         profileDescription.textContent = user.about;
@@ -81,7 +81,7 @@ formEditProfile.addEventListener('submit', submitEditProfileForm);
 //-нового места
 function submitNewCard(evt) {
   function makeRequest() {
-    return postNewCard(config, cardNameInput.value, cardLinkInput.value).then(
+    return postNewCard(cardNameInput.value, cardLinkInput.value).then(
       (card) => {
         cardList.prepend(
           createCard(
@@ -90,8 +90,7 @@ function submitNewCard(evt) {
             userID,
             deleteCard,
             handleCardLike,
-            openPopupImage,
-            config
+            openPopupImage
           )
         );
       }
@@ -102,8 +101,12 @@ function submitNewCard(evt) {
 formAddCard.addEventListener('submit', submitNewCard);
 //-аватара
 function submitNewAvatar(evt) {
+  checkUrlAvatar(avatarInput.value)
+  .then((res)=>{
+    console.log(res)
+  })
   function makeRequest() {
-    return patchUserAvatar(config, avatarInput.value).then((user) => {
+    return patchUserAvatar(avatarInput.value).then((user) => {
       profileAvatar.style.backgroundImage = `url(${user.avatar})`;
     });
   }
@@ -132,15 +135,14 @@ function renderCards(cards) {
       userID,
       deleteCard,
       handleCardLike,
-      openPopupImage,
-      config
+      openPopupImage
     );
     cardList.append(newCard);
   });
 }
 
 //загрузка данных с сервера
-Promise.all([getInitialCards(config), getInitialUser(config)])
+Promise.all([getInitialCards(), getInitialUser()])
   .then(([cards, user]) => {
     userID = user._id;
     profileTitle.textContent = user.name;

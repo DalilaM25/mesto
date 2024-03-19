@@ -2,21 +2,21 @@ import { deleteCardFromServer, addLike, removeLike } from './api.js';
 
 const deleteCard = (evt) => evt.target.closest('.card').remove();
 
-const handleCardLike = (evt, LikeCounter, config, card) => {
+const handleCardLike = (evt, likeCounter, card) => {
   if (!evt.target.classList.contains('card__like-button_is-active')) {
-    addLike(config, card._id)
+    addLike(card._id)
       .then((data) => {
         evt.target.classList.add('card__like-button_is-active');
-        LikeCounter.textContent = data.likes.length;
+        likeCounter.textContent = data.likes.length;
       })
       .catch((err) => {
         console.log(err);
       });
   } else {
-    removeLike(config, card._id)
+    removeLike(card._id)
       .then((data) => {
         evt.target.classList.remove('card__like-button_is-active');
-        LikeCounter.textContent = data.likes.length;
+        likeCounter.textContent = data.likes.length;
       })
       .catch((err) => {
         console.log(err);
@@ -30,8 +30,7 @@ function createCard(
   userID,
   deleteCard,
   handleCardLike,
-  openPopupImage,
-  config
+  openPopupImage
 ) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImg = cardElement.querySelector('.card__image');
@@ -58,7 +57,7 @@ function createCard(
   }
 
   deleteButton.addEventListener('click', (evt) => {
-    deleteCardFromServer(config, card._id)
+    deleteCardFromServer(card._id)
       .then(() => deleteCard(evt))
       .catch((err) => {
         console.log(err);
@@ -66,7 +65,7 @@ function createCard(
   });
 
   likeButton.addEventListener('click', (evt) =>
-    handleCardLike(evt, likeCounter, config, card)
+    handleCardLike(evt, likeCounter, card)
   );
   cardImg.addEventListener('click', (evt) => openPopupImage(cardImg));
   return cardElement;
