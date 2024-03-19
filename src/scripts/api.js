@@ -81,11 +81,11 @@ const patchUserAvatar = (avatar) => {
   });
 };
 
-const checkUrlAvatar = (avatar) => {
-  return fetch(avatar, {method: 'HEAD',
-  headers: config.headers})
-  .then(checkResponse);
-}
+// const checkUrlAvatar = (avatar) => {
+//   return fetch(`http://cors-anywhere.herokuapp.com/${avatar}`, {method: 'HEAD',
+//   headers: {'Content-Type': 'application/json'}})
+//   .then(checkResponse);
+// }
 
 export {
   getInitialCards,

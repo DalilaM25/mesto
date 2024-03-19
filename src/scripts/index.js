@@ -101,10 +101,10 @@ function submitNewCard(evt) {
 formAddCard.addEventListener('submit', submitNewCard);
 //-аватара
 function submitNewAvatar(evt) {
-  checkUrlAvatar(avatarInput.value)
-  .then((res)=>{
-    console.log(res)
-  })
+  // checkUrlAvatar(avatarInput.value)
+  // .then((res)=>{
+  //   console.log(res)
+  // })
   function makeRequest() {
     return patchUserAvatar(avatarInput.value).then((user) => {
       profileAvatar.style.backgroundImage = `url(${user.avatar})`;
