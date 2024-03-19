@@ -1,5 +1,12 @@
 import { checkResponse } from '../utils/utils';
 
+const config = {
+  headers: {
+    authorization: 'a306f177-c6ab-4a77-8c2f-7f3972575f99',
+    'Content-Type': 'application/json',
+  },
+};
+
 function request(endpoint, options) {
   // принимает два аргумента: урл и объект опций, как и `fetch`
   return fetch(
@@ -8,19 +15,19 @@ function request(endpoint, options) {
   ).then(checkResponse);
 }
 
-const getInitialCards = (config) => {
+const getInitialCards = () => {
   return request(`/cards`, {
     headers: config.headers,
   });
 };
 
-const getInitialUser = (config) => {
+const getInitialUser = () => {
   return request(`/users/me`, {
     headers: config.headers,
   });
 };
 
-const patchUserData = (config, name, job) => {
+const patchUserData = (name, job) => {
   return request(`/users/me`, {
     method: 'PATCH',
     headers: config.headers,
@@ -31,7 +38,7 @@ const patchUserData = (config, name, job) => {
   });
 };
 
-const postNewCard = (config, cardName, cardLink) => {
+const postNewCard = (cardName, cardLink) => {
   return request(`/cards`, {
     method: 'POST',
     headers: config.headers,
@@ -43,28 +50,28 @@ const postNewCard = (config, cardName, cardLink) => {
   });
 };
 
-const deleteCardFromServer = (config, cardID) => {
+const deleteCardFromServer = (cardID) => {
   return request(`/cards/${cardID}`, {
     method: 'DELETE',
     headers: config.headers,
   });
 };
 
-const addLike = (config, cardID) => {
+const addLike = (cardID) => {
   return request(`/cards/likes/${cardID}`, {
     method: 'PUT',
     headers: config.headers,
   });
 };
 
-const removeLike = (config, cardID) => {
+const removeLike = (cardID) => {
   return request(`/cards/likes/${cardID}`, {
     method: 'DELETE',
     headers: config.headers,
   });
 };
 
-const patchUserAvatar = (config, avatar) => {
+const patchUserAvatar = (avatar) => {
   return request(`/users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
@@ -73,6 +80,12 @@ const patchUserAvatar = (config, avatar) => {
     }),
   });
 };
+
+const checkUrlAvatar = (avatar) => {
+  return fetch(avatar, {method: 'HEAD',
+  headers: config.headers})
+  .then(checkResponse);
+}
 
 export {
   getInitialCards,
@@ -83,4 +96,5 @@ export {
   deleteCardFromServer,
   addLike,
   removeLike,
+  checkUrlAvatar
 };
