@@ -12,8 +12,7 @@ import {
   getInitialUser,
   patchUserData,
   patchUserAvatar,
-  postNewCard,
-  checkUrlAvatar,
+  postNewCard
 } from './api';
 import {
   cardTemplate,
@@ -37,7 +36,8 @@ import {
   profileDescription,
   popupImageContent,
   popupImageCaption,
-  validationConfig
+  validationConfig,
+  popupDeleteCard
 } from '../utils/constants';
 import { handleSubmit } from '../utils/utils';
 
@@ -90,7 +90,8 @@ function submitNewCard(evt) {
             userID,
             deleteCard,
             handleCardLike,
-            openPopupImage
+            openPopupImage,
+            popupDeleteCard
           )
         );
       }
@@ -135,7 +136,8 @@ function renderCards(cards) {
       userID,
       deleteCard,
       handleCardLike,
-      openPopupImage
+      openPopupImage,
+      popupDeleteCard
     );
     cardList.append(newCard);
   });

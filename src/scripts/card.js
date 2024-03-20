@@ -1,4 +1,5 @@
 import { deleteCardFromServer, addLike, removeLike } from './api.js';
+import { closeModal, openModal } from './modal.js';
 
 const deleteCard = (evt) => evt.target.closest('.card').remove();
 
@@ -30,7 +31,8 @@ function createCard(
   userID,
   deleteCard,
   handleCardLike,
-  openPopupImage
+  openPopupImage,
+  popupDeleteCard
 ) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImg = cardElement.querySelector('.card__image');
@@ -38,7 +40,7 @@ function createCard(
   const deleteButton = cardElement.querySelector('.card__delete-button');
   const likeButton = cardElement.querySelector('.card__like-button');
   const likeCounter = cardElement.querySelector('.card__like-counter');
-
+  const deleteConfirmButton = document.querySelector('.popup__delete-confirm');
   cardImg.src = card.link;
   cardImg.alt = card.name;
   cardTitle.textContent = card.name;
@@ -55,14 +57,17 @@ function createCard(
   } else {
     console.log('есть твои карточки');
   }
-
+   
+ 
   deleteButton.addEventListener('click', (evt) => {
+    openModal(popupDeleteCard);
+   deleteConfirmButton.addEventListener('click', ()=>{
     deleteCardFromServer(card._id)
       .then(() => deleteCard(evt))
       .catch((err) => {
         console.log(err);
-      });
-  });
+      }).finally(closeModal)})
+});
 
   likeButton.addEventListener('click', (evt) =>
     handleCardLike(evt, likeCounter, card)

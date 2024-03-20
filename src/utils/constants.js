@@ -9,6 +9,7 @@ const popupNewCard = document.querySelector('.popup_type_new-card');
 const popupImage = document.querySelector('.popup_type_image');
 const profileAvatar = document.querySelector('.profile__image');
 const popupEditAvatar = document.querySelector('.popup_type_avatar');
+const popupDeleteCard = document.querySelector('.popup_type_delete');
 const formAvatar = document.forms['edit-avatar'];
 const avatarInput = formAvatar.elements['link'];
 const formEditProfile = document.forms['edit-profile'];
@@ -52,5 +53,6 @@ export {
   profileDescription,
   popupImageContent,
   popupImageCaption,
-  validationConfig
+  validationConfig,
+  popupDeleteCard
 };

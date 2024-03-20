@@ -95,6 +95,5 @@ export {
   postNewCard,
   deleteCardFromServer,
   addLike,
-  removeLike,
-  checkUrlAvatar
+  removeLike
 };
