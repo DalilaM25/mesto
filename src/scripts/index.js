@@ -12,7 +12,8 @@ import {
   getInitialUser,
   patchUserData,
   patchUserAvatar,
-  postNewCard
+  postNewCard,
+  checkUrlAvatar
 } from './api';
 import {
   cardTemplate,
@@ -102,10 +103,6 @@ function submitNewCard(evt) {
 formAddCard.addEventListener('submit', submitNewCard);
 //-аватара
 function submitNewAvatar(evt) {
-  // checkUrlAvatar(avatarInput.value)
-  // .then((res)=>{
-  //   console.log(res)
-  // })
   function makeRequest() {
     return patchUserAvatar(avatarInput.value).then((user) => {
       profileAvatar.style.backgroundImage = `url(${user.avatar})`;
@@ -114,7 +111,22 @@ function submitNewAvatar(evt) {
   handleSubmit(makeRequest, evt);
 }
 
+function checkInputUrlAvatar(){
+  checkUrlAvatar(avatarInput.value)
+  .then(response => {
+    if (response.ok) { 
+        validationConfig.contentType = response.headers.get('content-type')}
+      else {return Promise.reject(`Ошибка: ${res.status}`)}
+      })
+  .then(()=>{
+    if (!(validationConfig.contentType) || !(validationConfig.contentType.includes('image/'))) {
+      console.log('Это не изображение');
+  } else {console.log('Это изображение')}})
+  .catch(console.error)
+  }
+ 
 formAvatar.addEventListener('submit', submitNewAvatar);
+formAvatar.addEventListener('input', checkInputUrlAvatar);
 
 //открыть картинку для просмотра
 function openPopupImage(cardImg) {

@@ -18,12 +18,12 @@ const hideInputError = (formElement, inputElement, validationConfig) => {
 };
 
 const checkInputValidity = (formElement, inputElement, validationConfig) => {
-  if (inputElement.validity.patternMismatch) {
+  if (inputElement.validity.patternMismatch || !(validationConfig.contentType) || !(validationConfig.contentType.includes('image/'))) {
     inputElement.setCustomValidity(inputElement.dataset.errorMessage);
   } else {
     inputElement.setCustomValidity('');
   }
-  if (!inputElement.validity.valid) {
+  if (!inputElement.validity.valid || !(validationConfig.contentType) || !(validationConfig.contentType.includes('image/'))) {
     showInputError(
       formElement,
       inputElement,

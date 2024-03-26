@@ -81,11 +81,12 @@ const patchUserAvatar = (avatar) => {
   });
 };
 
-// const checkUrlAvatar = (avatar) => {
-//   return fetch(`http://cors-anywhere.herokuapp.com/${avatar}`, {method: 'HEAD',
-//   headers: {'Content-Type': 'application/json'}})
-//   .then(checkResponse);
-// }
+const checkUrlAvatar = (avatar) => {
+return fetch(`https://api.codetabs.com/v1/proxy?quest=${avatar}`, {
+  method: 'HEAD'
+})
+}
+
 
 export {
   getInitialCards,
@@ -95,5 +96,6 @@ export {
   postNewCard,
   deleteCardFromServer,
   addLike,
-  removeLike
+  removeLike,
+  checkUrlAvatar
 };
