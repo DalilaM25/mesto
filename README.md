@@ -8,7 +8,7 @@
 
 ## Live просмотр
 ![Главная страница сайта](./docs/Prewiev.png)
-[Перейти на страницу демо]([https://dalilam25.github.io/mesto/])
+[Перейти на страницу демо](https://dalilam25.github.io/mesto/)
 ## Технологический стек
 - JavaScript
 - Webpack
