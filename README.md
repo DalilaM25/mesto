@@ -8,8 +8,7 @@
 
 ## Live просмотр
 ![Главная страница сайта](./docs/Prewiev.png)
-[Перейти на страницу демо]([https://burger-af0a8.web.app/](https://dalilam25.github.io/mesto/)
-)
+[Перейти на страницу демо]([https://dalilam25.github.io/mesto/])
 ## Технологический стек
 - JavaScript
 - Webpack
